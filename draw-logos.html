@@ -1,25 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Draw Logos From Memory</title>
   <style>
-    body { font-family: sans-serif; text-align: center; margin: 0; padding: 1rem; background: #f5f5f5; }
-    #logo-name { font-size: 1.5rem; margin: 1rem; }
-    canvas { border: 1px solid #ccc; background: white; cursor: crosshair; }
-    .controls { margin: 1rem; }
-    button { padding: 0.5rem 1rem; margin: 0.2rem; }
-    img { max-width: 200px; margin-top: 1rem; display: none; border: 1px solid #ccc; background: white; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f8f9fa;
+      color: #333;
+      text-align: center;
+      margin: 0;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .prompt {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+
+    canvas {
+      border: 1px solid #ccc;
+      background: #fff;
+      margin-top: 1rem;
+      cursor: crosshair;
+    }
+
+    .controls {
+      margin: 1.5rem 0;
+    }
+
+    button {
+      margin: 0.5rem;
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      border: none;
+      background: #007bff;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    img {
+      max-width: 250px;
+      margin-top: 1.5rem;
+      display: none;
+      border: 1px solid #ccc;
+    }
   </style>
 </head>
 <body>
   <h1>Draw Logos From Memory</h1>
+  <div class="prompt" id="prompt">Try drawing the Nike logo</div>
   <div class="controls">
-    <button onclick="prevLogo()">← Prev</button>
-    <span id="logo-name">Logo 1</span>
-    <button onclick="nextLogo()">Next →</button>
-    <button onclick="reveal()">Reveal Logo</button>
-    <button onclick="clearCanvas()">Clear</button>
+    <button onclick="prevLogo()">⬅️ Prev</button>
+    <button onclick="nextLogo()">Next ➡️</button>
+    <button onclick="clearCanvas()">🧹 Clear</button>
+    <button onclick="reveal()">👀 Reveal Logo</button>
   </div>
   <canvas id="canvas" width="500" height="400"></canvas>
   <div>
@@ -27,50 +72,83 @@
   </div>
 
   <script>
+    // Replace with your own Imgur links
     const logos = [
-      { name: "McDonald's", src: "https://neal.fun/logos-from-memory/mcdonalds.png" },
-      { name: "Apple", src: "https://neal.fun/logos-from-memory/apple.png" },
-      { name: "Nike", src: "https://neal.fun/logos-from-memory/nike.png" },
-      { name: "Starbucks", src: "https://neal.fun/logos-from-memory/starbucks.png" },
-      // Add more... Amazon, Google, etc.
+      {
+        name: "Nike",
+        image: "https://i.imgur.com/ZtVwgRw.png"
+      },
+      {
+        name: "Apple",
+        image: "https://i.imgur.com/N0z9muJ.png"
+      },
+      {
+        name: "McDonald's",
+        image: "https://i.imgur.com/jog7PVF.png"
+      },
+      {
+        name: "Starbucks",
+        image: "https://i.imgur.com/5gQiH4V.png"
+      }
     ];
-    let idx = 0;
+
+    let index = 0;
+
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
     let drawing = false;
 
-    function loadLogo(i) {
-      idx = (i + logos.length) % logos.length;
-      document.getElementById('logo-name').textContent = `Draw the ${logos[idx].name} logo`;
+    function loadPrompt(i) {
+      index = (i + logos.length) % logos.length;
+      document.getElementById('prompt').textContent = `Try drawing the ${logos[index].name} logo`;
       document.getElementById('realLogo').style.display = 'none';
       document.getElementById('realLogo').src = '';
       clearCanvas();
     }
 
-    function nextLogo() { loadLogo(idx + 1); }
-    function prevLogo() { loadLogo(idx - 1); }
-    function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+    function nextLogo() {
+      loadPrompt(index + 1);
+    }
+
+    function prevLogo() {
+      loadPrompt(index - 1);
+    }
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
 
     function reveal() {
       const img = document.getElementById('realLogo');
-      img.src = logos[idx].src;
-      img.style.display = 'inline';
+      img.src = logos[index].image;
+      img.style.display = 'block';
     }
 
-    canvas.addEventListener('mousedown', () => drawing = true);
-    canvas.addEventListener('mouseup', () => drawing = false);
-    canvas.addEventListener('mouseout', () => drawing = false);
-    canvas.addEventListener('mousemove', e => {
+    canvas.addEventListener('mousedown', () => {
+      drawing = true;
+      ctx.beginPath();
+    });
+
+    canvas.addEventListener('mouseup', () => {
+      drawing = false;
+      ctx.beginPath();
+    });
+
+    canvas.addEventListener('mousemove', draw);
+
+    function draw(e) {
       if (!drawing) return;
-      ctx.lineWidth = 4;
+      ctx.lineWidth = 3;
       ctx.lineCap = 'round';
+      ctx.strokeStyle = "#000";
+
       ctx.lineTo(e.offsetX, e.offsetY);
       ctx.stroke();
       ctx.beginPath();
       ctx.moveTo(e.offsetX, e.offsetY);
-    });
+    }
 
-    loadLogo(0);
+    loadPrompt(index);
   </script>
 </body>
 </html>
