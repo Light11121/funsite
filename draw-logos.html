@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Draw Logos</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; }
+    canvas { border: 1px solid #000; margin-top: 20px; }
+    button { margin: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Draw a Logo from Memory</h1>
+  <p>Try drawing the Apple logo from memory</p>
+  <canvas id="canvas" width="400" height="400"></canvas><br>
+  <button onclick="clearCanvas()">Clear</button>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+
+    canvas.addEventListener('mousedown', () => drawing = true);
+    canvas.addEventListener('mouseup', () => drawing = false);
+    canvas.addEventListener('mousemove', draw);
+
+    function draw(e) {
+      if (!drawing) return;
+      ctx.fillStyle = 'black';
+      ctx.beginPath();
+      ctx.arc(e.offsetX, e.offsetY, 2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  </script>
+</body>
+</html>

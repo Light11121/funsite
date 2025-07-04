@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fun Site</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f4f4f4;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      animation: fadeIn 1s ease-out;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    .link-list a {
+      display: block;
+      font-size: 1.5rem;
+      color: #0077ff;
+      text-decoration: none;
+      margin: 0.8rem 0;
+      transition: transform 0.2s, color 0.2s;
+    }
+
+    .link-list a:hover {
+      color: #0033cc;
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Fun Site</h1>
+  <div class="link-list">
+    <a href="bill-gates.html">Spend Bill Gates' Money</a>
+    <a href="deep-sea.html">The Deep Sea</a>
+    <a href="draw-logos.html">Draw Logos From Memory</a>
+    <a href="printing-money.html">Printing Money</a>
+    <a href="design-iphone.html">Design the Next iPhone</a>
+  </div>
+</body>
+</html>

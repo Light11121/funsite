@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Spend Bill Gates' Money</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 2rem; }
+    .item { margin: 1rem; }
+    button { padding: 0.5rem 1rem; margin: 0.5rem; }
+  </style>
+</head>
+<body>
+  <h1>Spend Bill Gates' Money</h1>
+  <p>You have <strong id="money">$100,000,000,000</strong></p>
+
+  <div class="item">
+    <p>🍔 Buy a Burger - $5</p>
+    <button onclick="spend(5)">Buy</button>
+  </div>
+
+  <div class="item">
+    <p>🚗 Buy a Tesla - $50,000</p>
+    <button onclick="spend(50000)">Buy</button>
+  </div>
+
+  <script>
+    let money = 100_000_000_000;
+
+    function spend(amount) {
+      if (money >= amount) {
+        money -= amount;
+        document.getElementById('money').textContent = "$" + money.toLocaleString();
+      } else {
+        alert("You're out of money!");
+      }
+    }
+  </script>
+</body>
+</html>

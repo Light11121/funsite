@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Printing Money</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; }
+    #money { font-size: 2rem; margin-top: 20px; }
+    button { padding: 1rem; font-size: 1.2rem; }
+  </style>
+</head>
+<body>
+  <h1>Printing Money Simulator</h1>
+  <button onclick="printMoney()">🖨️ Print $100</button>
+  <div id="money">$0</div>
+
+  <script>
+    let total = 0;
+    function printMoney() {
+      total += 100;
+      document.getElementById('money').textContent = "$" + total.toLocaleString();
+    }
+  </script>
+</body>
+</html>

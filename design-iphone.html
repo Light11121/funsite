@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Design the Next iPhone</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 2rem; }
+    select, input { margin: 0.5rem; padding: 0.5rem; }
+    #output { margin-top: 1rem; font-size: 1.2rem; }
+  </style>
+</head>
+<body>
+  <h1>Design the Next iPhone</h1>
+
+  <select id="color">
+    <option>Space Gray</option>
+    <option>Silver</option>
+    <option>Rose Gold</option>
+  </select>
+
+  <select id="storage">
+    <option>128GB</option>
+    <option>256GB</option>
+    <option>1TB</option>
+  </select>
+
+  <button onclick="design()">Build iPhone</button>
+
+  <div id="output"></div>
+
+  <script>
+    function design() {
+      const color = document.getElementById("color").value;
+      const storage = document.getElementById("storage").value;
+      document.getElementById("output").textContent = `You designed a ${color} iPhone with ${storage} storage. 🚀`;
+    }
+  </script>
+</body>
+</html>
