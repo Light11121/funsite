@@ -2,39 +2,75 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Draw Logos</title>
+  <title>Draw Logos From Memory</title>
   <style>
-    body { font-family: sans-serif; text-align: center; }
-    canvas { border: 1px solid #000; margin-top: 20px; }
-    button { margin: 10px; }
+    body { font-family: sans-serif; text-align: center; margin: 0; padding: 1rem; background: #f5f5f5; }
+    #logo-name { font-size: 1.5rem; margin: 1rem; }
+    canvas { border: 1px solid #ccc; background: white; cursor: crosshair; }
+    .controls { margin: 1rem; }
+    button { padding: 0.5rem 1rem; margin: 0.2rem; }
+    img { max-width: 200px; margin-top: 1rem; display: none; border: 1px solid #ccc; background: white; }
   </style>
 </head>
 <body>
-  <h1>Draw a Logo from Memory</h1>
-  <p>Try drawing the Apple logo from memory</p>
-  <canvas id="canvas" width="400" height="400"></canvas><br>
-  <button onclick="clearCanvas()">Clear</button>
+  <h1>Draw Logos From Memory</h1>
+  <div class="controls">
+    <button onclick="prevLogo()">← Prev</button>
+    <span id="logo-name">Logo 1</span>
+    <button onclick="nextLogo()">Next →</button>
+    <button onclick="reveal()">Reveal Logo</button>
+    <button onclick="clearCanvas()">Clear</button>
+  </div>
+  <canvas id="canvas" width="500" height="400"></canvas>
+  <div>
+    <img id="realLogo" src="" alt="Real Logo">
+  </div>
 
   <script>
+    const logos = [
+      { name: "McDonald's", src: "https://neal.fun/logos-from-memory/mcdonalds.png" },
+      { name: "Apple", src: "https://neal.fun/logos-from-memory/apple.png" },
+      { name: "Nike", src: "https://neal.fun/logos-from-memory/nike.png" },
+      { name: "Starbucks", src: "https://neal.fun/logos-from-memory/starbucks.png" },
+      // Add more... Amazon, Google, etc.
+    ];
+    let idx = 0;
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
     let drawing = false;
 
+    function loadLogo(i) {
+      idx = (i + logos.length) % logos.length;
+      document.getElementById('logo-name').textContent = `Draw the ${logos[idx].name} logo`;
+      document.getElementById('realLogo').style.display = 'none';
+      document.getElementById('realLogo').src = '';
+      clearCanvas();
+    }
+
+    function nextLogo() { loadLogo(idx + 1); }
+    function prevLogo() { loadLogo(idx - 1); }
+    function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+
+    function reveal() {
+      const img = document.getElementById('realLogo');
+      img.src = logos[idx].src;
+      img.style.display = 'inline';
+    }
+
     canvas.addEventListener('mousedown', () => drawing = true);
     canvas.addEventListener('mouseup', () => drawing = false);
-    canvas.addEventListener('mousemove', draw);
-
-    function draw(e) {
+    canvas.addEventListener('mouseout', () => drawing = false);
+    canvas.addEventListener('mousemove', e => {
       if (!drawing) return;
-      ctx.fillStyle = 'black';
+      ctx.lineWidth = 4;
+      ctx.lineCap = 'round';
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
       ctx.beginPath();
-      ctx.arc(e.offsetX, e.offsetY, 2, 0, Math.PI * 2);
-      ctx.fill();
-    }
+      ctx.moveTo(e.offsetX, e.offsetY);
+    });
 
-    function clearCanvas() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
+    loadLogo(0);
   </script>
 </body>
 </html>
